@@ -18,10 +18,10 @@ export const itineraryData = [
       "Late night flight to Tokyo (11:55pm Mar 6)"
     ],
     activities: [
-      { day: "Tue Mar 3", activity: "Arrive 5pm, transfer to accommodation, dinner at resort", type: "travel" },
+      { day: "Tue Mar 3", activity: "FJ 410: AKL 3:00pm → NAN 5:00pm. Transfer to accommodation", type: "travel" },
       { day: "Wed Mar 4", activity: "Work 8am-12pm, afternoon beach & pool", type: "work" },
       { day: "Thu Mar 5", activity: "CALLS 9am-1pm - Stack all pre-trip client calls", type: "calls" },
-      { day: "Fri Mar 6", activity: "Full day free, late checkout, 11:55pm flight to Tokyo", type: "travel" }
+      { day: "Fri Mar 6", activity: "Full day free, late checkout. FJ 351: NAN 11:55pm → Tokyo", type: "travel" }
     ],
     workSpaces: [
       { name: "Room / Accommodation", details: "Same timezone - work from room" }
@@ -43,13 +43,13 @@ export const itineraryData = [
     timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
     photo: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&h=250&fit=crop",
     highlights: [
-      "Arrive 6:55am Sat - adjust to timezone",
+      "FJ 351 arrives 6:15am Sat - adjust to timezone",
       "Shibuya, Harajuku, Meiji Shrine exploration",
       "DISNEYLAND Mar 10 - Book Premier Access NOW!",
       "Guy's afternoon: Akihabara, Robot Restaurant"
     ],
     activities: [
-      { day: "Sat Mar 7", activity: "Arrive 6:55am, train to accommodation, explore local area", type: "off" },
+      { day: "Sat Mar 7", activity: "FJ 351 arrives NRT 6:15am. Train to accommodation, explore", type: "off" },
       { day: "Sun Mar 8", activity: "Explore Shibuya, Harajuku, Shinjuku. Evening: Golden Gai", type: "off" },
       { day: "Mon Mar 9", activity: "DEEP WORK 6am-12pm. PM: Guy's afternoon - Akihabara, bars", type: "deep" },
       { day: "Tue Mar 10", activity: "DISNEYLAND! Arrive early, Fantasy Springs, stay for fireworks", type: "off" },
@@ -256,7 +256,7 @@ export const itineraryData = [
     destination: "Tokyo (Return)",
     location: "Tokyo, Japan",
     coordinates: [35.6762, 139.6503],
-    dates: "Mar 30 - Apr 1",
+    dates: "Mar 30 - Apr 2",
     nights: 2,
     phase: "departure",
     travellingWith: "Family",
@@ -267,12 +267,13 @@ export const itineraryData = [
       "Final night - favourite dinner spot",
       "Last-minute shopping",
       "Ueno Park if weather's good",
-      "Apr 1: Fly home! ✈️"
+      "Apr 1: FJ 350 NRT 4:30pm → Fiji, then FJ 411 → AKL"
     ],
     activities: [
       { day: "Mon Mar 30", activity: "Arrive from Nagoya. Final night, favourite spots revisit", type: "light" },
       { day: "Tue Mar 31", activity: "Work 6-10am. Day: Shopping, Ueno Park, family dinner", type: "work" },
-      { day: "Wed Apr 1", activity: "Transfer to airport. Fly Tokyo → NZ. Trip complete! ✈️", type: "travel" }
+      { day: "Wed Apr 1", activity: "FJ 350: NRT 4:30pm → NAN (arrives Thu 4:35am)", type: "travel" },
+      { day: "Thu Apr 2", activity: "FJ 411: NAN 9:30am → AKL 1:40pm. Home! ✈️", type: "travel" }
     ],
     workSpaces: [
       { name: "Room / Accommodation", details: "Final work sessions from room" }
@@ -285,8 +286,8 @@ export const itineraryData = [
 
 export const tripInfo = {
   title: "Fiji + Japan 2026",
-  dates: "March 3 - April 1, 2026",
-  totalDays: 30,
+  dates: "March 3 - April 2, 2026",
+  totalDays: 31,
   destinations: 9,
   summary: "Remote Work Adventure",
   phases: {
@@ -327,7 +328,7 @@ export const tripInfo = {
 };
 
 export const routeConnections = [
-  { from: 1, to: 2, transport: "Flight", duration: "~9 hours", icon: "plane", notes: "11:55pm Fri → 6:55am Sat" },
+  { from: 1, to: 2, transport: "FJ 351", duration: "~9 hours", icon: "plane", notes: "NAN 11:55pm → NRT 6:15am" },
   { from: 2, to: 3, transport: "Shinkansen", duration: "~2.5 hours", icon: "train-bullet", notes: "Tokyo → Kyoto" },
   { from: 3, to: 4, transport: "Train", duration: "~3 hours", icon: "train", notes: "Kyoto → Hakone" },
   { from: 4, to: 5, transport: "Bus/Train", duration: "~2 hours", icon: "bus", notes: "Hakone → Kawaguchiko" },
