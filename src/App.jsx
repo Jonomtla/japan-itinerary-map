@@ -13,13 +13,13 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 })
 
-// Custom marker icon creator
-const createCustomIcon = (color, isSelected) => {
+// Custom marker icon creator with number
+const createCustomIcon = (color, isSelected, number) => {
   return L.divIcon({
     className: 'custom-marker',
     html: `
       <div class="marker-pin ${isSelected ? 'selected' : ''}" style="background-color: ${color};">
-        <span class="marker-number">${isSelected ? '★' : ''}</span>
+        <span class="marker-number">${number}</span>
       </div>
     `,
     iconSize: [30, 42],
@@ -236,13 +236,32 @@ function App() {
 
             <MapController selectedDestination={selectedDestination} />
 
-            {/* Route line */}
+            {/* Route line - outer glow */}
             <Polyline
               positions={routeCoordinates}
-              color="#666"
+              color="#e91e63"
+              weight={8}
+              opacity={0.3}
+              lineCap="round"
+              lineJoin="round"
+            />
+            {/* Route line - main path */}
+            <Polyline
+              positions={routeCoordinates}
+              color="#e91e63"
+              weight={4}
+              opacity={0.9}
+              lineCap="round"
+              lineJoin="round"
+            />
+            {/* Route line - animated direction arrows */}
+            <Polyline
+              positions={routeCoordinates}
+              color="#ffffff"
               weight={2}
-              opacity={0.6}
-              dashArray="10, 10"
+              opacity={0.8}
+              dashArray="0, 20"
+              lineCap="round"
             />
 
             {/* Destination markers */}
@@ -250,7 +269,7 @@ function App() {
               <Marker
                 key={dest.id}
                 position={dest.coordinates}
-                icon={createCustomIcon(dest.color, selectedDestination?.id === dest.id)}
+                icon={createCustomIcon(dest.color, selectedDestination?.id === dest.id, idx + 1)}
                 eventHandlers={{
                   click: () => handleDestinationClick(dest)
                 }}
