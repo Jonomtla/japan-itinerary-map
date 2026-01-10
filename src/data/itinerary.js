@@ -8,21 +8,25 @@ export const itineraryData = [
     nights: 3,
     phase: "stopover",
     travellingWith: "Friends",
+    weather: { temp: "28°C", condition: "Sunny", icon: "sun", humidity: "75%" },
+    timezone: { name: "FJT", offset: "+12", nzDiff: "Same as NZ" },
+    photo: "https://images.unsplash.com/photo-1589179899295-f2a3c5e90f47?w=400&h=250&fit=crop",
     highlights: [
-      "Stopover destination before Japan",
-      "Reliable internet in Nadi and resort areas (10-20 Mbps)",
-      "MyDesk Fiji & Workplace Fiji coworking options",
-      "Denarau Island resorts with business centers"
+      "Same timezone as NZ - easy for calls",
+      "Beach & pool relaxation with friends",
+      "Pre-trip client calls stacked on Mar 5",
+      "Late night flight to Tokyo (11:55pm Mar 6)"
     ],
     activities: [
-      { day: "Wed Mar 4", activity: "Morning work block (8am-12pm), afternoon explore" },
-      { day: "Thu Mar 5", activity: "Morning work block (8am-12pm), afternoon/evening free" },
-      { day: "Fri Mar 6", activity: "Free day, late night flight (11:55pm)" }
+      { day: "Tue Mar 3", activity: "Arrive 5pm, transfer to accommodation, dinner at resort", type: "travel" },
+      { day: "Wed Mar 4", activity: "Work 8am-12pm, afternoon beach & pool", type: "work" },
+      { day: "Thu Mar 5", activity: "CALLS 9am-1pm - Stack all pre-trip client calls", type: "calls" },
+      { day: "Fri Mar 6", activity: "Full day free, late checkout, 11:55pm flight to Tokyo", type: "travel" }
     ],
     workSpaces: [
-      { name: "MyDesk Fiji", details: "Coworking space with meeting rooms" },
-      { name: "Workplace Fiji", details: "Modern coworking with high-speed internet" }
+      { name: "Room / Accommodation", details: "Same timezone - work from room" }
     ],
+    workSchedule: { type: "mixed", days: ["Work 8am-12pm", "Calls 9am-1pm", "Off"] },
     color: "#00bcd4",
     icon: "palm"
   },
@@ -35,25 +39,26 @@ export const itineraryData = [
     nights: 4,
     phase: "friends",
     travellingWith: "Friends",
+    weather: { temp: "12°C", condition: "Partly Cloudy", icon: "cloud-sun", humidity: "55%" },
+    timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
+    photo: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&h=250&fit=crop",
     highlights: [
-      "Arrive 6:55am on Sat Mar 7",
-      "Disneyland day (March is busier due to spring break)",
-      "Guy's Day - Akihabara, Robot Restaurant, Golden Gai",
-      "Multiple coworking options available"
+      "Arrive 6:55am Sat - adjust to timezone",
+      "Shibuya, Harajuku, Meiji Shrine exploration",
+      "DISNEYLAND Mar 10 - Book Premier Access NOW!",
+      "Guy's afternoon: Akihabara, Robot Restaurant"
     ],
     activities: [
-      { day: "Sat Mar 7", activity: "Arrive 6:55am - Rest, explore local area, recover" },
-      { day: "Sun Mar 8", activity: "Full exploration - Shibuya, Harajuku, Shinjuku" },
-      { day: "Mon Mar 9", activity: "DISNEYLAND (arrive 1-2 hours before opening)" },
-      { day: "Tue Mar 10", activity: "Morning work (Basis Point), afternoon Guy's Day" },
-      { day: "Wed Mar 11", activity: "Light work AM, travel to Kyoto (Shinkansen ~2h15m)" }
+      { day: "Sat Mar 7", activity: "Arrive 6:55am, train to accommodation, explore local area", type: "off" },
+      { day: "Sun Mar 8", activity: "Explore Shibuya, Harajuku, Shinjuku. Evening: Golden Gai", type: "off" },
+      { day: "Mon Mar 9", activity: "DEEP WORK 6am-12pm. PM: Guy's afternoon - Akihabara, bars", type: "deep" },
+      { day: "Tue Mar 10", activity: "DISNEYLAND! Arrive early, Fantasy Springs, stay for fireworks", type: "off" },
+      { day: "Wed Mar 11", activity: "Shinkansen to Kyoto (~2.5hrs). Settle in, wander Gion", type: "travel" }
     ],
     workSpaces: [
-      { name: "Basis Point", details: "¥600/hour, ¥2,400/day - Multiple locations" },
-      { name: "Share Lounge Shibuya", details: "¥1,650/hour - Views over Shibuya Crossing" },
-      { name: "Cafe Salvador", details: "¥600/hour, ¥1,800/day - 100+ seats" },
-      { name: "Blink Smart Workspace", details: "¥1,200/half-day - English-friendly, 24/7" }
+      { name: "Room / Accommodation", details: "Work from room - anytime access" }
     ],
+    workSchedule: { type: "deep", days: ["Off", "Off", "Deep 6am-12pm", "Off", "Travel"] },
     color: "#e91e63",
     icon: "tower"
   },
@@ -66,24 +71,26 @@ export const itineraryData = [
     nights: 4,
     phase: "friends",
     travellingWith: "Friends",
+    weather: { temp: "14°C", condition: "Clear", icon: "sun", humidity: "50%" },
+    timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
+    photo: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=400&h=250&fit=crop",
     highlights: [
+      "Space Kante - 24hr coworking (book ahead)",
       "Osaka day trip included",
-      "Fushimi Inari Shrine (less crowded late PM)",
-      "Arashiyama Bamboo Grove",
-      "Kinkaku-ji (Golden Pavilion)"
+      "Fushimi Inari early (7am to beat crowds)",
+      "Arashiyama bamboo grove + Sagano scenic train"
     ],
     activities: [
-      { day: "Wed Mar 11", activity: "Arrive from Tokyo, settle in, evening stroll in Gion" },
-      { day: "Thu Mar 12", activity: "OSAKA DAY TRIP - Work 6am-9am, then Dotonbori, Osaka Castle" },
-      { day: "Fri Mar 13", activity: "Work day (GROVING BASE), afternoon Fushimi Inari" },
-      { day: "Sat Mar 14", activity: "Full day - Arashiyama Bamboo Grove, Kinkaku-ji" },
-      { day: "Sun Mar 15", activity: "Morning Kiyomizu-dera, then travel to Hakone" }
+      { day: "Wed Mar 11", activity: "Arrive from Tokyo, settle in, evening Gion stroll", type: "travel" },
+      { day: "Thu Mar 12", activity: "Work 6-10am at Space Kante. PM: Day trip to Osaka", type: "work" },
+      { day: "Fri Mar 13", activity: "CALLS 6-9am + 2-5pm (3pm Japan = 7pm NZ). Evening: Pontocho", type: "calls" },
+      { day: "Sat Mar 14", activity: "Fushimi Inari (7am!), Arashiyama bamboo, Nishiki Market", type: "off" },
+      { day: "Sun Mar 15", activity: "Morning temples, travel to Hakone. FAMILY JOINS! 👨‍👩‍👧‍👦", type: "travel" }
     ],
     workSpaces: [
-      { name: "Co-nnect Kyoto", details: "¥1,000/day - Great value, library-like atmosphere" },
-      { name: "Space Kante", details: "24/7 access, cafe vibe" },
-      { name: "GROVING BASE", details: "Near Kyoto Station, phone booths for calls" }
+      { name: "Space Kante", details: "24/7 coworking - book 1 week ahead" }
     ],
+    workSchedule: { type: "mixed", days: ["Travel", "Work 6-10am", "Calls 6-9a+2-5p", "Off", "Travel"] },
     color: "#9c27b0",
     icon: "temple"
   },
@@ -96,24 +103,25 @@ export const itineraryData = [
     nights: 3,
     phase: "family",
     travellingWith: "Family (3yo + 19mo)",
+    weather: { temp: "11°C", condition: "Misty", icon: "cloud", humidity: "70%" },
+    timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
+    photo: "https://images.unsplash.com/photo-1578271887552-5ac3a72752bc?w=400&h=250&fit=crop",
     highlights: [
-      "FAMILY JOINS HERE!",
-      "Limited coworking - work from ryokan",
-      "Hakone Ropeway over volcanic valley",
-      "Lake Ashi pirate ship cruise",
-      "Private onsen rooms available"
+      "FAMILY JOINS HERE! 👨‍👩‍👧‍👦",
+      "Hakone Ropeway over Owakudani valley",
+      "Lake Ashi pirate ship cruise (kids love it)",
+      "Private family onsen at ryokan"
     ],
     activities: [
-      { day: "Activities", activity: "Hakone Ropeway - Kids love the cable cars" },
-      { day: "Activities", activity: "Lake Ashi pirate ship cruise - Mt Fuji views" },
-      { day: "Activities", activity: "Hakone Open Air Museum - Outdoor sculptures" },
-      { day: "Activities", activity: "Private onsen rooms - Family-friendly bathing" }
+      { day: "Sun Mar 15", activity: "Family arrives! Settle into ryokan, first family onsen", type: "travel" },
+      { day: "Mon Mar 16", activity: "Work 6-10am. Ropeway, pirate ship, Open Air Museum", type: "work" },
+      { day: "Tue Mar 17", activity: "Light work 6-8am. More exploring, private onsen, nap time", type: "light" },
+      { day: "Wed Mar 18", activity: "Travel to Mt Fuji glamping. Afternoon settle in, Mt Fuji views", type: "travel" }
     ],
     workSpaces: [
-      { name: "Hakone Honbako", details: "Book hotel - quiet, comfortable" },
-      { name: "Timuny Cafe", details: "River views, limited power outlets" },
-      { name: "Ryokan WiFi", details: "Work early morning before family activities" }
+      { name: "Ryokan WiFi", details: "Work from ryokan before kids wake (6-10am)" }
     ],
+    workSchedule: { type: "light", days: ["Travel", "Work 6-10am", "Light 6-8am", "Travel"] },
     color: "#ff5722",
     icon: "hotspring"
   },
@@ -126,23 +134,26 @@ export const itineraryData = [
     nights: 4,
     phase: "family",
     travellingWith: "Family (3yo + 19mo)",
+    weather: { temp: "8°C", condition: "Clear", icon: "sun", humidity: "45%" },
+    timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
+    photo: "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=400&h=250&fit=crop",
     highlights: [
-      "Glamping with Mt Fuji views",
-      "Chureito Pagoda (395 steps - carrier recommended)",
-      "Fuji-Q Highland with Thomas Land",
-      "Traditional village Oshino Hakkai"
+      "FUJISAN VALLEY coworking opens 5am!",
+      "Mt Fuji sunrise while working",
+      "Thomas Land at Fuji-Q Highland (Mar 21)",
+      "Chureito Pagoda - bring carrier for toddler"
     ],
     activities: [
-      { day: "Activities", activity: "Chureito Pagoda - Iconic Mt Fuji viewpoint" },
-      { day: "Activities", activity: "Lake Kawaguchiko - Paddle boats, cycling" },
-      { day: "Activities", activity: "Fuji-Q Highland - Thomas Land for toddlers!" },
-      { day: "Activities", activity: "Oshino Hakkai - Crystal clear ponds village" }
+      { day: "Wed Mar 18", activity: "Arrive from Hakone. Settle into glamping, Mt Fuji views", type: "travel" },
+      { day: "Thu Mar 19", activity: "DEEP WORK 5-11am at FUJISAN VALLEY (sunrise!). PM: Chureito Pagoda", type: "deep" },
+      { day: "Fri Mar 20", activity: "Work 6-10am. Oshino Hakkai village, lake paddle boats", type: "work" },
+      { day: "Sat Mar 21", activity: "Thomas Land at Fuji-Q Highland - perfect for toddlers!", type: "off" },
+      { day: "Sun Mar 22", activity: "Early Mt Fuji photos, travel to Matsumoto through Alps", type: "travel" }
     ],
     workSpaces: [
-      { name: "FUJISAN VALLEY", details: "Open 5am-midnight, drop-in available" },
-      { name: ".work Plus", details: "Connected to Mt Fuji Station" },
-      { name: "NAKAMURA House", details: "150-year-old house with Mt Fuji views!" }
+      { name: "FUJISAN VALLEY", details: "Opens 5am! Book slot 1 week ahead. Mt Fuji views" }
     ],
+    workSchedule: { type: "deep", days: ["Travel", "Deep 5-11am", "Work 6-10am", "Off", "Travel"] },
     color: "#2196f3",
     icon: "mountain"
   },
@@ -155,23 +166,27 @@ export const itineraryData = [
     nights: 4,
     phase: "family",
     travellingWith: "Family (3yo + 19mo)",
+    weather: { temp: "10°C", condition: "Partly Cloudy", icon: "cloud-sun", humidity: "55%" },
+    timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
+    photo: "https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?w=400&h=250&fit=crop",
     highlights: [
-      "Japanese Alps region",
-      "Historic Matsumoto Castle",
-      "Nakamachi Street exploration",
-      "Daio Wasabi Farm (kids love the water wheels)"
+      "Matsumoto Castle - one of Japan's originals",
+      "KNOWERS coworking (opens 12pm only)",
+      "Daio Wasabi Farm - kids love water wheels",
+      "Nawate-dori frog street for kids"
     ],
     activities: [
-      { day: "Sun Mar 22", activity: "Arrive, settle in, explore Nakamachi Street" },
-      { day: "Mon Mar 23", activity: "WORK DAY - Morning at KNOWERS, afternoon Castle" },
-      { day: "Tue Mar 24", activity: "WORK DAY - Morning work, afternoon Wasabi Farm" },
-      { day: "Wed Mar 25", activity: "WORK DAY - Morning work, afternoon family time" },
-      { day: "Thu Mar 26", activity: "Light work, travel to Gero Onsen" }
+      { day: "Sun Mar 22", activity: "Arrive through Japanese Alps, explore castle town", type: "travel" },
+      { day: "Mon Mar 23", activity: "DEEP WORK 6-10am + 1-4pm (KNOWERS). Midday: Castle visit", type: "deep" },
+      { day: "Tue Mar 24", activity: "Work 6-10am. PM: Daio Wasabi Farm or Ukiyo-e Museum", type: "work" },
+      { day: "Wed Mar 25", activity: "Light work 6-8am. Family day - parks, Nawate-dori frog street", type: "light" },
+      { day: "Thu Mar 26", activity: "Travel to Gero Onsen. PM: Ryokan, foot baths, family onsen", type: "travel" }
     ],
     workSpaces: [
-      { name: "KNOWERS MATSUMOTO", details: "First coworking in Matsumoto, great for networking" },
-      { name: "SWEET WORK", details: "Historical bakery setting, unique atmosphere" }
+      { name: "Room (AM)", details: "Work from room 6-10am" },
+      { name: "KNOWERS", details: "Opens 12pm-7pm only. Book for PM sessions" }
     ],
+    workSchedule: { type: "deep", days: ["Travel", "Deep 6-10+1-4", "Work 6-10am", "Light 6-8am", "Travel"] },
     color: "#4caf50",
     icon: "castle"
   },
@@ -184,49 +199,55 @@ export const itineraryData = [
     nights: 1,
     phase: "family",
     travellingWith: "Family (3yo + 19mo)",
+    weather: { temp: "13°C", condition: "Warm", icon: "sun", humidity: "60%" },
+    timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
+    photo: "https://images.unsplash.com/photo-1553653924-39b70295f8da?w=400&h=250&fit=crop",
     highlights: [
       "One of Japan's top 3 hot spring resorts",
-      "Silky smooth water - excellent for skin",
-      "NO coworking - relaxation stop!",
-      "Private family baths available"
+      "Public foot baths - free & toddler-friendly",
+      "LAST CALL DAY - Mar 27 afternoon",
+      "Travel to Nagoya for F1 weekend"
     ],
     activities: [
-      { day: "Activities", activity: "Public foot baths throughout town (free, toddler-friendly)" },
-      { day: "Activities", activity: "Gassho-zukuri folk village - Traditional houses" },
-      { day: "Activities", activity: "Private family ryokan baths" }
+      { day: "Thu Mar 26", activity: "Arrive from Matsumoto. Ryokan, foot baths, family onsen", type: "travel" },
+      { day: "Fri Mar 27", activity: "Work 6-8am. Morning onsen. Travel to Nagoya. CALLS 2-5pm at WeWork", type: "calls" }
     ],
     workSpaces: [
-      { name: "Ryokan WiFi only", details: "Plan minimal work - this is a relaxation stop!" }
+      { name: "Ryokan WiFi", details: "Morning work 6-8am only" },
+      { name: "WeWork JR Central", details: "50th floor views! PM calls from Nagoya" }
     ],
+    workSchedule: { type: "calls", days: ["Travel", "Calls 6-8a+2-5p"] },
     color: "#795548",
     icon: "hotspring"
   },
   {
     id: 8,
     destination: "Nagoya & F1",
-    location: "Nagoya, Japan",
+    location: "Nagoya / Suzuka, Japan",
     coordinates: [35.1815, 136.9066],
     dates: "Mar 27-30",
     nights: 3,
     phase: "family",
     travellingWith: "Family (3yo + 19mo)",
+    weather: { temp: "15°C", condition: "Clear", icon: "sun", humidity: "50%" },
+    timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
+    photo: "https://images.unsplash.com/photo-1581092162384-8987c1d64718?w=400&h=250&fit=crop",
     highlights: [
-      "F1 Japanese Grand Prix at Suzuka!",
-      "LEGOLAND Japan - Perfect for 3yo",
-      "Nagoya Port Aquarium",
-      "Suzuka Circuit ~1hr from Nagoya"
+      "F1 Japanese GP at Suzuka! 🏎️🏁",
+      "Qualifying Mar 28, Race Mar 29",
+      "LEGOLAND Japan alternative for family",
+      "Book F1 tickets NOW via official site"
     ],
     activities: [
-      { day: "Fri Mar 27", activity: "Arrive from Gero, light work if needed" },
-      { day: "Sat Mar 28", activity: "F1 QUALIFYING DAY - Suzuka Circuit" },
-      { day: "Sun Mar 29", activity: "F1 RACE DAY!" },
-      { day: "Mon Mar 30", activity: "Morning in Nagoya, afternoon train to Tokyo" }
+      { day: "Fri Mar 27", activity: "Arrive from Gero. CALLS 2-5pm at WeWork JR Central", type: "calls" },
+      { day: "Sat Mar 28", activity: "F1 QUALIFYING DAY - Suzuka Circuit (~1hr from Nagoya)", type: "off" },
+      { day: "Sun Mar 29", activity: "F1 RACE DAY! 🏁 (Family: LEGOLAND or Nagoya Aquarium)", type: "off" },
+      { day: "Mon Mar 30", activity: "Light work 9am-12pm. PM: Shinkansen to Tokyo, final night", type: "light" }
     ],
     workSpaces: [
-      { name: "WeWork JR Central Towers", details: "Direct station access, day pass available" },
-      { name: "Spaces JP-Tower Nagoya", details: "Designer workspace, networking events" },
-      { name: "Regus Sakae", details: "City views, reliable chain" }
+      { name: "WeWork JR Central Towers", details: "50th floor, 8:30am-6pm. Day pass available" }
     ],
+    workSchedule: { type: "light", days: ["Calls 2-5pm", "Off F1", "Off F1", "Light 9am-12pm"] },
     color: "#f44336",
     icon: "racing"
   },
@@ -236,32 +257,38 @@ export const itineraryData = [
     location: "Tokyo, Japan",
     coordinates: [35.6762, 139.6503],
     dates: "Mar 30 - Apr 1",
-    nights: 1,
+    nights: 2,
     phase: "departure",
     travellingWith: "Family",
+    weather: { temp: "14°C", condition: "Mild", icon: "cloud-sun", humidity: "55%" },
+    timezone: { name: "JST", offset: "+9", nzDiff: "4hrs behind NZ" },
+    photo: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=400&h=250&fit=crop",
     highlights: [
-      "Final night before departure",
+      "Final night - favourite dinner spot",
       "Last-minute shopping",
-      "Departure preparation",
-      "Light work if needed"
+      "Ueno Park if weather's good",
+      "Apr 1: Fly home! ✈️"
     ],
     activities: [
-      { day: "Mon Mar 30", activity: "Arrive from Nagoya" },
-      { day: "Tue Mar 31", activity: "Last-minute shopping, pack up" },
-      { day: "Wed Apr 1", activity: "Departure to NZ" }
+      { day: "Mon Mar 30", activity: "Arrive from Nagoya. Final night, favourite spots revisit", type: "light" },
+      { day: "Tue Mar 31", activity: "Work 6-10am. Day: Shopping, Ueno Park, family dinner", type: "work" },
+      { day: "Wed Apr 1", activity: "Transfer to airport. Fly Tokyo → NZ. Trip complete! ✈️", type: "travel" }
     ],
-    workSpaces: [],
+    workSpaces: [
+      { name: "Room / Accommodation", details: "Final work sessions from room" }
+    ],
+    workSchedule: { type: "light", days: ["Light 9am-12pm", "Work 6-10am", "Travel home"] },
     color: "#607d8b",
     icon: "plane"
   }
 ];
 
 export const tripInfo = {
-  title: "Fiji + Japan Adventure",
+  title: "Fiji + Japan 2026",
   dates: "March 3 - April 1, 2026",
   totalDays: 30,
   destinations: 9,
-  summary: "Remote Work Itinerary",
+  summary: "Remote Work Adventure",
   phases: {
     stopover: { label: "Fiji Stopover", color: "#00bcd4" },
     friends: { label: "With Friends", color: "#9c27b0" },
@@ -269,25 +296,52 @@ export const tripInfo = {
     departure: { label: "Departure", color: "#607d8b" }
   },
   travelNotes: [
-    "Japan is 4 hours behind NZ (during daylight saving)",
-    "Fiji is same as NZ during daylight saving",
-    "Best work hours for NZ clients: 6am-10am Japan time",
-    "Shinkansen trains have WiFi and fold-out tables"
+    "Japan is 4hrs behind NZ (2hrs behind Sydney)",
+    "Best work: 6-10am Japan = 10am-2pm NZ",
+    "Calls: 3pm Japan = 7pm NZ",
+    "Shinkansen WiFi patchy - plan ahead"
   ],
   workSummary: {
-    totalWorkDays: 14,
-    lightWorkDays: 6,
-    fullDaysOff: 10
-  }
+    callDays: 3,
+    deepWorkDays: 3,
+    standardWorkDays: 5,
+    lightWorkDays: 4,
+    daysOff: 8,
+    travelDays: 7
+  },
+  bookNow: [
+    { item: "Tokyo Disneyland tickets (Mar 10)", when: "NOW", notes: "Book Premier Access for Fantasy Springs" },
+    { item: "F1 Japanese GP tickets (Mar 28-29)", when: "NOW", notes: "Suzuka Circuit - check official F1 site" },
+    { item: "JR Pass (14 or 21 day)", when: "NOW", notes: "Must buy before arriving in Japan" },
+    { item: "Shinkansen seats (Mar 11, 28-30)", when: "2 weeks", notes: "Reserve specific trains, esp F1 weekend" },
+    { item: "Pocket WiFi / eSIM", when: "2 weeks", notes: "Japan Wireless, Sakura Mobile, or Ubigi" },
+    { item: "Space Kante Kyoto (Mar 12-13)", when: "1 week", notes: "24hr coworking - book online" },
+    { item: "FUJISAN VALLEY (Mar 19)", when: "1 week", notes: "Opens 5am - reserve slot" }
+  ],
+  timeZones: [
+    { japan: "6am", nz: "10am", sydney: "8am", best: "Async, Slack" },
+    { japan: "9am", nz: "1pm", sydney: "11am", best: "Late AM calls" },
+    { japan: "2pm", nz: "6pm", sydney: "4pm", best: "Flexible calls" },
+    { japan: "3pm", nz: "7pm", sydney: "5pm", best: "Evening NZ" }
+  ]
 };
 
 export const routeConnections = [
-  { from: 1, to: 2, transport: "Flight", duration: "~9 hours" },
-  { from: 2, to: 3, transport: "Shinkansen", duration: "~2h 15m" },
-  { from: 3, to: 4, transport: "Train", duration: "~3 hours" },
-  { from: 4, to: 5, transport: "Bus/Train", duration: "~2 hours" },
-  { from: 5, to: 6, transport: "Train", duration: "~3 hours" },
-  { from: 6, to: 7, transport: "Train", duration: "~2 hours" },
-  { from: 7, to: 8, transport: "Train", duration: "~2 hours" },
-  { from: 8, to: 9, transport: "Shinkansen", duration: "~1h 40m" }
+  { from: 1, to: 2, transport: "Flight", duration: "~9 hours", icon: "plane", notes: "11:55pm Fri → 6:55am Sat" },
+  { from: 2, to: 3, transport: "Shinkansen", duration: "~2.5 hours", icon: "train-bullet", notes: "Tokyo → Kyoto" },
+  { from: 3, to: 4, transport: "Train", duration: "~3 hours", icon: "train", notes: "Kyoto → Hakone" },
+  { from: 4, to: 5, transport: "Bus/Train", duration: "~2 hours", icon: "bus", notes: "Hakone → Kawaguchiko" },
+  { from: 5, to: 6, transport: "Train", duration: "~3 hours", icon: "train", notes: "Scenic route through Alps" },
+  { from: 6, to: 7, transport: "Train", duration: "~2 hours", icon: "train", notes: "Matsumoto → Gero" },
+  { from: 7, to: 8, transport: "Train", duration: "~2 hours", icon: "train", notes: "Gero → Nagoya" },
+  { from: 8, to: 9, transport: "Shinkansen", duration: "~1h 40m", icon: "train-bullet", notes: "Nagoya → Tokyo" }
 ];
+
+export const workTypes = {
+  calls: { label: "Call Days", color: "#f44336", icon: "📞" },
+  deep: { label: "Deep Work", color: "#9c27b0", icon: "🎯" },
+  work: { label: "Standard Work", color: "#2196f3", icon: "💻" },
+  light: { label: "Light Work", color: "#4caf50", icon: "📝" },
+  off: { label: "Day Off", color: "#ff9800", icon: "🌴" },
+  travel: { label: "Travel Day", color: "#607d8b", icon: "🚄" }
+};

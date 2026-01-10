@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -28,18 +28,44 @@ const createCustomIcon = (color, isSelected, number) => {
   })
 }
 
-// Transport icons
-const transportIcons = {
-  'Flight': '\u2708',
-  'Shinkansen': '\u{1F685}',
-  'Train': '\u{1F683}',
-  'Bus/Train': '\u{1F68C}'
+// Weather icons
+const weatherIcons = {
+  'sun': '☀️',
+  'cloud-sun': '⛅',
+  'cloud': '☁️',
+  'rain': '🌧️'
+}
+
+// Transport SVG icons
+const TransportIcon = ({ type, size = 20 }) => {
+  const icons = {
+    'plane': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+    ),
+    'train-bullet': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h2.23l2-2H14l2 2h2v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-3.58-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V6h5v4zm2 0V6h5v4h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+      </svg>
+    ),
+    'train': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h2l2-2h4l2 2h2v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zm5.5 13c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-11 0c-.83 0-1.5-.67-1.5-1.5S5.67 12 6.5 12s1.5.67 1.5 1.5S7.33 15 6.5 15zM18 10H6V7h12v3z"/>
+      </svg>
+    ),
+    'bus': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/>
+      </svg>
+    )
+  }
+  return icons[type] || icons['train']
 }
 
 // Component to handle map view changes
-function MapController({ selectedDestination, isPlaying, currentIndex, onAnimationComplete }) {
+function MapController({ selectedDestination, isPlaying, currentIndex }) {
   const map = useMap()
-  const animationRef = useRef(null)
 
   useEffect(() => {
     if (isPlaying && currentIndex < itineraryData.length) {
@@ -61,29 +87,80 @@ function MapController({ selectedDestination, isPlaying, currentIndex, onAnimati
   return null
 }
 
-// Animated route component
-function AnimatedRoute({ routeCoordinates, currentIndex, isPlaying }) {
-  const visibleCoordinates = isPlaying
-    ? routeCoordinates.slice(0, currentIndex + 1)
-    : routeCoordinates
+// Smooth animated route component with interpolation
+function AnimatedRoute({ routeCoordinates, currentIndex, isPlaying, animationProgress }) {
+  const [drawProgress, setDrawProgress] = useState(0)
+
+  useEffect(() => {
+    if (isPlaying) {
+      // Animate drawing to current index
+      const targetProgress = (currentIndex + 1) / routeCoordinates.length
+      const startProgress = drawProgress
+      const duration = 1500 // ms
+      const startTime = Date.now()
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3)
+        const newProgress = startProgress + (targetProgress - startProgress) * eased
+        setDrawProgress(newProgress)
+
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        }
+      }
+      requestAnimationFrame(animate)
+    } else {
+      setDrawProgress(1) // Show full route when not playing
+    }
+  }, [currentIndex, isPlaying])
+
+  // Interpolate coordinates for smooth drawing
+  const getInterpolatedCoordinates = () => {
+    if (!isPlaying) return routeCoordinates
+
+    const totalSegments = routeCoordinates.length - 1
+    const currentSegmentFloat = drawProgress * totalSegments
+    const currentSegment = Math.floor(currentSegmentFloat)
+    const segmentProgress = currentSegmentFloat - currentSegment
+
+    const coords = routeCoordinates.slice(0, currentSegment + 1)
+
+    if (currentSegment < totalSegments) {
+      const start = routeCoordinates[currentSegment]
+      const end = routeCoordinates[currentSegment + 1]
+      const interpolated = [
+        start[0] + (end[0] - start[0]) * segmentProgress,
+        start[1] + (end[1] - start[1]) * segmentProgress
+      ]
+      coords.push(interpolated)
+    }
+
+    return coords
+  }
+
+  const visibleCoordinates = getInterpolatedCoordinates()
 
   return (
     <>
-      {/* Full route - faded */}
+      {/* Full route - faded background */}
       <Polyline
         positions={routeCoordinates}
-        color="#ccc"
+        color="#94a3b8"
         weight={3}
-        opacity={0.3}
+        opacity={0.25}
         lineCap="round"
         lineJoin="round"
+        dashArray="8, 12"
       />
       {/* Visible route - outer glow */}
       <Polyline
         positions={visibleCoordinates}
         color="#e91e63"
-        weight={8}
-        opacity={0.3}
+        weight={10}
+        opacity={0.2}
         lineCap="round"
         lineJoin="round"
       />
@@ -92,10 +169,22 @@ function AnimatedRoute({ routeCoordinates, currentIndex, isPlaying }) {
         positions={visibleCoordinates}
         color="#e91e63"
         weight={4}
-        opacity={0.9}
+        opacity={1}
         lineCap="round"
         lineJoin="round"
       />
+      {/* Animated head dot */}
+      {isPlaying && visibleCoordinates.length > 0 && (
+        <Marker
+          position={visibleCoordinates[visibleCoordinates.length - 1]}
+          icon={L.divIcon({
+            className: 'route-head',
+            html: '<div class="route-head-dot"></div>',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8]
+          })}
+        />
+      )}
     </>
   )
 }
@@ -105,10 +194,10 @@ function App() {
   const [activeTab, setActiveTab] = useState('overview')
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [animationSpeed, setAnimationSpeed] = useState(4000) // ms per destination
+  const [animationSpeed] = useState(4000)
+  const [imageErrors, setImageErrors] = useState({})
   const timelineRef = useRef(null)
 
-  // Create polyline coordinates for route
   const routeCoordinates = itineraryData.map(dest => dest.coordinates)
 
   // Auto-play animation
@@ -120,7 +209,6 @@ function App() {
           setCurrentIndex(prev => prev + 1)
         }, animationSpeed)
       } else {
-        // Animation complete
         setTimeout(() => {
           setIsPlaying(false)
         }, animationSpeed)
@@ -129,7 +217,6 @@ function App() {
     return () => clearTimeout(timer)
   }, [isPlaying, currentIndex, animationSpeed])
 
-  // Update selected destination during playback
   useEffect(() => {
     if (isPlaying) {
       setSelectedDestination(itineraryData[currentIndex])
@@ -137,7 +224,6 @@ function App() {
     }
   }, [currentIndex, isPlaying])
 
-  // Scroll timeline to current destination
   useEffect(() => {
     if (timelineRef.current) {
       const activeItem = timelineRef.current.querySelector('.timeline-item.active')
@@ -151,17 +237,12 @@ function App() {
     setSelectedDestination(destination)
     setCurrentIndex(index)
     setActiveTab('details')
-    if (isPlaying) {
-      setIsPlaying(false)
-    }
+    if (isPlaying) setIsPlaying(false)
   }
 
   const handlePlayPause = () => {
     if (!isPlaying) {
-      // Starting playback
-      if (currentIndex >= itineraryData.length - 1) {
-        setCurrentIndex(0)
-      }
+      if (currentIndex >= itineraryData.length - 1) setCurrentIndex(0)
       setIsPlaying(true)
     } else {
       setIsPlaying(false)
@@ -191,18 +272,13 @@ function App() {
     setActiveTab('overview')
   }
 
-  const getPhaseLabel = (phase) => {
-    return tripInfo.phases[phase]?.label || phase
+  const handleImageError = (id) => {
+    setImageErrors(prev => ({ ...prev, [id]: true }))
   }
 
-  const getPhaseColor = (phase) => {
-    return tripInfo.phases[phase]?.color || '#666'
-  }
-
-  const getTransportBetween = (fromIndex) => {
-    const connection = routeConnections.find(c => c.from === fromIndex + 1)
-    return connection || null
-  }
+  const getPhaseLabel = (phase) => tripInfo.phases[phase]?.label || phase
+  const getPhaseColor = (phase) => tripInfo.phases[phase]?.color || '#666'
+  const getTransportBetween = (fromIndex) => routeConnections.find(c => c.from === fromIndex + 1) || null
 
   const currentDestination = selectedDestination || (isPlaying ? itineraryData[currentIndex] : null)
 
@@ -223,7 +299,7 @@ function App() {
               onClick={handlePlayPause}
               title={isPlaying ? 'Pause' : 'Play Trip Animation'}
             >
-              {isPlaying ? '\u23F8' : '\u25B6'} {isPlaying ? 'Pause' : 'Play Trip'}
+              {isPlaying ? '⏸' : '▶'} {isPlaying ? 'Pause' : 'Play Trip'}
             </button>
           </div>
         </div>
@@ -288,17 +364,18 @@ function App() {
                         <span className="dest-name">{dest.destination}</span>
                         <span className="dest-dates">{dest.dates}</span>
                       </div>
-                      <span
-                        className="dest-phase"
-                        style={{ backgroundColor: getPhaseColor(dest.phase) }}
-                      >
+                      <div className="dest-weather-mini">
+                        <span>{weatherIcons[dest.weather.icon]}</span>
+                        <span>{dest.weather.temp}</span>
+                      </div>
+                      <span className="dest-phase" style={{ backgroundColor: getPhaseColor(dest.phase) }}>
                         {dest.nights}N
                       </span>
                     </div>
                     {idx < itineraryData.length - 1 && (
                       <div className="transport-connector">
-                        <span className="transport-icon">
-                          {transportIcons[getTransportBetween(idx)?.transport] || '\u2192'}
+                        <span className="transport-icon-svg">
+                          <TransportIcon type={getTransportBetween(idx)?.icon} size={16} />
                         </span>
                         <span className="transport-info">
                           {getTransportBetween(idx)?.transport} {getTransportBetween(idx)?.duration}
@@ -313,38 +390,77 @@ function App() {
 
           {activeTab === 'details' && currentDestination && (
             <div className="details-panel">
-              <div
-                className="details-header"
-                style={{ backgroundColor: currentDestination.color }}
-              >
-                <div className="details-nav">
-                  <button
-                    className="nav-btn"
-                    onClick={handlePrev}
-                    disabled={currentIndex === 0}
-                  >
-                    \u2190 Prev
-                  </button>
-                  <span className="nav-position">{currentIndex + 1} / {itineraryData.length}</span>
-                  <button
-                    className="nav-btn"
-                    onClick={handleNext}
-                    disabled={currentIndex === itineraryData.length - 1}
-                  >
-                    Next \u2192
-                  </button>
+              {/* Photo Header */}
+              <div className="photo-header">
+                {!imageErrors[currentDestination.id] ? (
+                  <img
+                    src={currentDestination.photo}
+                    alt={currentDestination.destination}
+                    onError={() => handleImageError(currentDestination.id)}
+                  />
+                ) : (
+                  <div className="photo-placeholder" style={{ backgroundColor: currentDestination.color }}>
+                    <span className="photo-placeholder-icon">
+                      {currentDestination.icon === 'palm' ? '🌴' :
+                       currentDestination.icon === 'tower' ? '🗼' :
+                       currentDestination.icon === 'temple' ? '⛩️' :
+                       currentDestination.icon === 'hotspring' ? '♨️' :
+                       currentDestination.icon === 'mountain' ? '🗻' :
+                       currentDestination.icon === 'castle' ? '🏯' :
+                       currentDestination.icon === 'racing' ? '🏎️' :
+                       currentDestination.icon === 'plane' ? '✈️' : '🌏'}
+                    </span>
+                  </div>
+                )}
+                <div className="photo-overlay">
+                  <div className="details-nav">
+                    <button className="nav-btn" onClick={handlePrev} disabled={currentIndex === 0}>
+                      ←
+                    </button>
+                    <span className="nav-position">{currentIndex + 1} / {itineraryData.length}</span>
+                    <button className="nav-btn" onClick={handleNext} disabled={currentIndex === itineraryData.length - 1}>
+                      →
+                    </button>
+                  </div>
+                  <h2>{currentDestination.destination}</h2>
+                  <p>{currentDestination.location}</p>
                 </div>
-                <h2>{currentDestination.destination}</h2>
-                <p>{currentDestination.dates} | {currentDestination.nights} nights</p>
-                <span className="phase-badge">
-                  {getPhaseLabel(currentDestination.phase)}
-                </span>
               </div>
 
               <div className="details-content">
-                <p className="travelling-with">
-                  <strong>Travelling with:</strong> {currentDestination.travellingWith}
-                </p>
+                {/* Weather & Time Card */}
+                <div className="weather-time-card">
+                  <div className="weather-section">
+                    <span className="weather-icon-large">{weatherIcons[currentDestination.weather.icon]}</span>
+                    <div className="weather-info">
+                      <span className="weather-temp">{currentDestination.weather.temp}</span>
+                      <span className="weather-condition">{currentDestination.weather.condition}</span>
+                      <span className="weather-humidity">Humidity: {currentDestination.weather.humidity}</span>
+                    </div>
+                  </div>
+                  <div className="time-section">
+                    <span className="time-icon">🕰️</span>
+                    <div className="time-info">
+                      <span className="timezone-name">{currentDestination.timezone.name} (UTC{currentDestination.timezone.offset})</span>
+                      <span className="timezone-diff">{currentDestination.timezone.nzDiff}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dates & Phase */}
+                <div className="dates-phase-row">
+                  <div className="dates-info">
+                    <span className="dates-label">Dates</span>
+                    <span className="dates-value">{currentDestination.dates}</span>
+                    <span className="nights-value">{currentDestination.nights} nights</span>
+                  </div>
+                  <div className="phase-info">
+                    <span className="phase-label">Travelling with</span>
+                    <span className="phase-badge-large" style={{ backgroundColor: getPhaseColor(currentDestination.phase) }}>
+                      {currentDestination.travellingWith}
+                    </span>
+                  </div>
+                </div>
 
                 <div className="details-section">
                   <h4>Highlights</h4>
@@ -383,28 +499,29 @@ function App() {
 
                 {/* Next destination preview */}
                 {currentIndex < itineraryData.length - 1 && (
-                  <div className="next-destination">
+                  <div className="next-destination" onClick={() => handleDestinationClick(itineraryData[currentIndex + 1], currentIndex + 1)}>
                     <div className="next-transport">
                       <span className="transport-icon-large">
-                        {transportIcons[getTransportBetween(currentIndex)?.transport] || '\u2192'}
+                        <TransportIcon type={getTransportBetween(currentIndex)?.icon} size={28} />
                       </span>
                       <div className="transport-details">
-                        <span>{getTransportBetween(currentIndex)?.transport}</span>
+                        <span className="transport-mode">{getTransportBetween(currentIndex)?.transport}</span>
                         <span className="transport-duration">{getTransportBetween(currentIndex)?.duration}</span>
                       </div>
                     </div>
-                    <div className="next-preview" onClick={() => handleDestinationClick(itineraryData[currentIndex + 1], currentIndex + 1)}>
+                    <div className="next-preview">
                       <span className="next-label">Next Stop</span>
                       <span className="next-name">{itineraryData[currentIndex + 1].destination}</span>
+                      <span className="next-weather">
+                        {weatherIcons[itineraryData[currentIndex + 1].weather.icon]} {itineraryData[currentIndex + 1].weather.temp}
+                      </span>
                     </div>
+                    <span className="next-arrow">→</span>
                   </div>
                 )}
               </div>
 
-              <button
-                className="back-btn"
-                onClick={handleReset}
-              >
+              <button className="back-btn" onClick={handleReset}>
                 Back to Overview
               </button>
             </div>
@@ -412,9 +529,9 @@ function App() {
 
           {activeTab === 'details' && !currentDestination && (
             <div className="no-selection">
-              <p>Click on a destination marker on the map or select from the overview list to see details.</p>
+              <p>Click on a destination marker or select from the list to see details.</p>
               <button className="start-tour-btn" onClick={handlePlayPause}>
-                \u25B6 Start Trip Walkthrough
+                ▶ Start Trip Walkthrough
               </button>
             </div>
           )}
@@ -428,9 +545,10 @@ function App() {
             className="leaflet-map"
             scrollWheelZoom={true}
           >
+            {/* Stadia Alidade Smooth Dark - stylish map */}
             <TileLayer
-              attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-              url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+              url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
             />
 
             <MapController
@@ -450,27 +568,24 @@ function App() {
               <Marker
                 key={dest.id}
                 position={dest.coordinates}
-                icon={createCustomIcon(
-                  dest.color,
-                  currentDestination?.id === dest.id,
-                  idx + 1
-                )}
+                icon={createCustomIcon(dest.color, currentDestination?.id === dest.id, idx + 1)}
                 opacity={!isPlaying || idx <= currentIndex ? 1 : 0.3}
-                eventHandlers={{
-                  click: () => handleDestinationClick(dest, idx)
-                }}
+                eventHandlers={{ click: () => handleDestinationClick(dest, idx) }}
               >
                 <Popup>
                   <div className="popup-content">
+                    <div className="popup-photo">
+                      <img src={dest.photo} alt={dest.destination} />
+                    </div>
                     <h3>{idx + 1}. {dest.destination}</h3>
                     <p><strong>{dest.dates}</strong> | {dest.nights} nights</p>
+                    <div className="popup-weather">
+                      {weatherIcons[dest.weather.icon]} {dest.weather.temp} - {dest.weather.condition}
+                    </div>
                     <p className="popup-phase" style={{ color: getPhaseColor(dest.phase) }}>
                       {getPhaseLabel(dest.phase)}
                     </p>
-                    <button
-                      className="popup-btn"
-                      onClick={() => handleDestinationClick(dest, idx)}
-                    >
+                    <button className="popup-btn" onClick={() => handleDestinationClick(dest, idx)}>
                       View Details
                     </button>
                   </div>
@@ -479,18 +594,21 @@ function App() {
             ))}
           </MapContainer>
 
-          {/* Playback controls overlay */}
+          {/* Playback overlay */}
           {isPlaying && (
             <div className="playback-overlay">
+              <div className="playback-photo">
+                <img src={itineraryData[currentIndex].photo} alt="" />
+              </div>
               <div className="playback-info">
                 <span className="playback-destination">{itineraryData[currentIndex].destination}</span>
                 <span className="playback-dates">{itineraryData[currentIndex].dates}</span>
+                <span className="playback-weather">
+                  {weatherIcons[itineraryData[currentIndex].weather.icon]} {itineraryData[currentIndex].weather.temp}
+                </span>
               </div>
               <div className="playback-progress">
-                <div
-                  className="progress-bar"
-                  style={{ width: `${((currentIndex + 1) / itineraryData.length) * 100}%` }}
-                />
+                <div className="progress-bar" style={{ width: `${((currentIndex + 1) / itineraryData.length) * 100}%` }} />
               </div>
             </div>
           )}
@@ -500,10 +618,7 @@ function App() {
             <h4>Trip Phases</h4>
             {Object.entries(tripInfo.phases).map(([key, value]) => (
               <div key={key} className="legend-item">
-                <span
-                  className="legend-color"
-                  style={{ backgroundColor: value.color }}
-                ></span>
+                <span className="legend-color" style={{ backgroundColor: value.color }}></span>
                 <span>{value.label}</span>
               </div>
             ))}
@@ -515,13 +630,13 @@ function App() {
       <div className="timeline-container">
         <div className="timeline-controls">
           <button className="timeline-btn" onClick={handlePrev} disabled={currentIndex === 0}>
-            \u2190
+            ←
           </button>
           <button className="timeline-btn play-btn" onClick={handlePlayPause}>
-            {isPlaying ? '\u23F8' : '\u25B6'}
+            {isPlaying ? '⏸' : '▶'}
           </button>
           <button className="timeline-btn" onClick={handleNext} disabled={currentIndex === itineraryData.length - 1}>
-            \u2192
+            →
           </button>
         </div>
         <div className="timeline-scroll" ref={timelineRef}>
@@ -539,13 +654,15 @@ function App() {
                   <div className="timeline-info">
                     <span className="timeline-dest">{dest.destination}</span>
                     <span className="timeline-dates">{dest.dates}</span>
-                    <span className="timeline-nights">{dest.nights}N</span>
+                    <span className="timeline-weather">
+                      {weatherIcons[dest.weather.icon]} {dest.weather.temp}
+                    </span>
                   </div>
                 </div>
                 {idx < itineraryData.length - 1 && (
                   <div className={`timeline-connector ${isPlaying && idx < currentIndex ? 'visited' : ''}`}>
-                    <span className="connector-icon">
-                      {transportIcons[getTransportBetween(idx)?.transport] || '\u2192'}
+                    <span className="connector-icon-svg">
+                      <TransportIcon type={getTransportBetween(idx)?.icon} size={18} />
                     </span>
                   </div>
                 )}
